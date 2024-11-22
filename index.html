@@ -15,7 +15,19 @@
 <br><br>
 
 <button onclick="btnRefreshOnClick()"> Refresh</button>
-<button onclick="btnShowSymbolsOnClick()"> Show symbols</button>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<label>
+    Show symbols <input id="cbxShowSymbols" type="checkbox" onchange="cbxShowSymbolsOnchange()">
+</label>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<label>
+    Notation
+    <select id="sbxNotation" onchange="sbxNotationOnchange()">
+        <option value="0" selected>A B C</option>
+        <option value="1">Do re mi</option>
+    </select>
+</label>
+
 <script src="main.js"></script>
 </body>
 </html>

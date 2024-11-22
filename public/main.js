@@ -60,7 +60,8 @@ function drawStave(context, keys, x, y, width, initClef = false, showAnnotation 
         const note = new VF.StaveNote({clef: "treble", keys: keys[i], duration: "q"});
 
         if (showAnnotation) {
-            addAnnotation(keys[i][0][0], note);
+            const text = mappingNotation(keys[i][0][0]);
+            addAnnotation(text, note);
         }
 
         notes.push(note);
@@ -69,6 +70,31 @@ function drawStave(context, keys, x, y, width, initClef = false, showAnnotation 
     VF.Formatter.FormatAndDraw(context, stave, notes);
 
     return stave
+}
+
+function mappingNotation(note) {
+    const sbxNotation = document.getElementById("sbxNotation").value;
+
+    if (sbxNotation === "0") {
+        return note;
+    }
+
+    switch (note) {
+        case 'a':
+            return 'La';
+        case 'b':
+            return 'Si';
+        case 'c':
+            return 'Do';
+        case 'd':
+            return 'Re';
+        case 'e':
+            return 'Mi';
+        case 'f':
+            return 'Fa';
+        case 'g':
+            return 'Sol';
+    }
 }
 
 function addAnnotation(text, note) {
@@ -93,10 +119,10 @@ function drawLine(keys, showAnnotation = false) {
     }
 }
 
-function randomAndDrawMusic(numberOfLine, numOfStave) {
+function randomAndDrawMusic(numberOfLine, numOfStave, showAnnotation) {
     let keyLines = randomKeyLineList(numberOfLine, numOfStave);
 
-    drawMusic(keyLines);
+    drawMusic(keyLines, showAnnotation);
 
     return keyLines
 }
@@ -118,14 +144,21 @@ function randomKeyLineList(numberOfLine, numOfStave) {
 function btnRefreshOnClick() {
     const numOfLine = document.getElementById("numOfLine").value;
     const numOfStave = document.getElementById("numOfStave").value;
+    const cbxShowSymbols = document.getElementById("cbxShowSymbols");
 
     document.getElementById("music-canvas").innerHTML = "";
 
-    keyLines = randomAndDrawMusic(numOfLine, numOfStave);
+    keyLines = randomAndDrawMusic(numOfLine, numOfStave, cbxShowSymbols.checked);
 }
 
-function btnShowSymbolsOnClick() {
+function cbxShowSymbolsOnchange() {
+    const cbxShowSymbols = document.getElementById("cbxShowSymbols");
+
     document.getElementById("music-canvas").innerHTML = "";
 
-    drawMusic(keyLines, true);
+    drawMusic(keyLines, cbxShowSymbols.checked);
+}
+
+function sbxNotationOnchange() {
+    cbxShowSymbolsOnchange();
 }
